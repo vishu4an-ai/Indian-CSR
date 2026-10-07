@@ -1,0 +1,579 @@
+<title>India CSR Flows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one 1080px column; hairline-divided sections; cards only where a row expands. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --ink:#10181f; --ink2:#44505c; --muted:#58646f;
+  --line:#dbe1e6; --line2:#c3ccd4; --accent:#1f3a5f; --accent-soft:#e7edf4; --bar:#5d7288; --bar-ghost:#c9d3dc;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#8a95a0;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1317; --surface:#151c22; --ink:#e9eef2; --ink2:#b3bec8; --muted:#93a0ac;
+  --line:#26303a; --line2:#36424e; --accent:#a9c8f0; --accent-soft:#1a2633; --bar:#7d94ab; --bar-ghost:#2a3744;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#8f9aa5;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1317; --surface:#151c22; --ink:#e9eef2; --ink2:#b3bec8; --muted:#93a0ac;
+  --line:#26303a; --line2:#36424e; --accent:#a9c8f0; --accent-soft:#1a2633; --bar:#7d94ab; --bar-ghost:#2a3744;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#8f9aa5;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);margin:0;-webkit-text-size-adjust:100%}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:clamp(16px,4vw,32px);padding-block:28px 72px}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
+h1{font-size:clamp(34px,6.4vw,54px);line-height:1.05;font-weight:600;letter-spacing:-.025em;text-wrap:balance}
+h2{font-size:22px;line-height:1.25;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:14px;font-weight:600}
+a{color:var(--accent);text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.mono,.eyebrow,.tag,th,.unit{font-family:var(--mono)}
+.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:17px;max-width:62ch;color:var(--ink2);margin-top:14px}
+.snapnote{font-size:13px;color:var(--muted);max-width:74ch;margin-top:18px}
+.nf{color:var(--muted);font-style:italic}
+
+/* masthead + stats */
+.mast{display:flex;flex-direction:column;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;margin-top:28px;border-top:1px solid var(--line2)}
+.stat{padding:16px 16px 14px 0;min-width:0}
+.stat+.stat{padding-left:16px;border-left:1px solid var(--line)}
+.stat .v{font-size:26px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.stat.hero{grid-column:span 2}
+.stat.hero .v{font-size:clamp(44px,8vw,64px);letter-spacing:-.03em;line-height:1}
+.stat .l{font-size:13px;color:var(--ink2);margin-top:6px}
+.stat .s{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media(max-width:560px){.stat.hero{grid-column:1/-1}.stat:nth-child(n){border-left:0;padding-left:0}}
+
+.jump{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;font-size:13px}
+.jump a{color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--line2)}
+.jump a:hover{color:var(--ink);border-color:var(--ink)}
+
+section{margin-top:52px;padding-top:26px;border-top:1px solid var(--line2)}
+section>h2{margin-bottom:6px}
+.sub{color:var(--ink2);max-width:72ch;margin-bottom:18px}
+
+/* controls */
+.ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:16px 0 12px}
+.search{flex:1 1 200px;min-width:0;max-width:300px;font:inherit;font-size:14px;padding:8px 10px;color:var(--ink);background:var(--surface);border:1px solid var(--line2);border-radius:6px}
+.search::placeholder{color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button,.btn{font:inherit;font-size:13px;padding:7px 12px;border:0;background:transparent;color:var(--ink2);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line2)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.btn{border:1px solid var(--line2);border-radius:6px;background:var(--surface)}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--accent-soft)}
+
+.share{display:flex;gap:2px;height:14px;margin-top:14px}
+.share i{display:block;height:100%;border-radius:3px;min-width:3px}
+.share i:hover{filter:brightness(1.12)}
+.sharecap{font-size:12px;color:var(--muted);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
+.chip i{width:10px;height:10px;border-radius:2px;flex:none}
+.chip .m{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.chip[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.chips.has-sel .chip[aria-pressed="false"]{opacity:.55}
+
+/* ranked list */
+.list{list-style:none;padding:0;margin:8px 0 0;border-top:1px solid var(--line)}
+.row{border-bottom:1px solid var(--line)}
+.rowhead{display:grid;grid-template-columns:28px minmax(170px,290px) minmax(0,1fr) 18px;grid-template-areas:"rk nm trk chev";align-items:center;gap:4px 12px;width:100%;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:8px 0;cursor:pointer}
+.rowhead:hover{background:var(--accent-soft)}
+.rk{grid-area:rk;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.nm{grid-area:nm;min-width:0;font-size:14px;font-weight:500;line-height:1.3}
+.nm .tag{margin-left:6px;vertical-align:1px}
+.trk{display:flex;align-items:center;gap:8px;min-width:0}
+.rowhead .trk{grid-area:trk}
+.bar{display:block;height:14px;border-radius:0 4px 4px 0;flex:none}
+.val{font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chev{grid-area:chev;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin-top:-4px;transition:transform .15s}
+.rowhead[aria-expanded="true"] .chev{transform:rotate(-135deg);margin-top:4px}
+.tag{display:inline-block;font-size:10.5px;letter-spacing:.03em;padding:0 5px;border:1px solid var(--line2);border-radius:3px;color:var(--ink2);white-space:nowrap}
+.tag.flag{color:var(--accent);border-color:var(--accent)}
+@media(max-width:620px){
+  .rowhead{grid-template-columns:24px minmax(0,1fr) 18px;grid-template-areas:"rk nm chev" ". trk ."}
+}
+.detail{padding:6px 0 20px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px 28px}
+@media(max-width:620px){.detail{padding-left:0}}
+.detail>div{min-width:0}
+.detail h4{font:500 11px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.detail p,.detail li{font-size:13.5px;color:var(--ink2)}
+.detail ul{padding-left:18px;margin:0}
+.detail li+li{margin-top:3px}
+.detail p+p{margin-top:6px}
+.detail .note{font-size:12.5px;color:var(--muted)}
+.detail .wide{grid-column:1/-1}
+.detail .meta{font-size:12.5px;color:var(--muted)}
+.srcs{list-style:none;padding:0;display:flex;flex-direction:column;gap:3px}
+.srcs a{font-size:13px;overflow-wrap:anywhere}
+
+.tbl{overflow-x:auto;border-top:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td.c{color:var(--ink);font-weight:500}
+.sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px}
+.empty{padding:22px 0;color:var(--muted)}
+
+/* generic bar lists */
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:34px 40px}
+.panels>*{min-width:0}
+.panel h3{margin-bottom:2px}
+.panel .cap{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.bl{display:flex;flex-direction:column;gap:6px}
+.bi{display:grid;grid-template-columns:minmax(110px,38%) minmax(0,1fr);gap:10px;align-items:center;font-size:13px}
+.bi .lb{min-width:0;color:var(--ink)}
+.bi .lb small{display:block;color:var(--muted);font-size:11.5px}
+.bi .trk{gap:8px}
+.bi .bar{background:var(--bar)}
+.bi.ghost .bar{background:var(--bar-ghost)}
+.bi.ghost .lb{color:var(--ink2);font-style:italic}
+.bi:hover .bar{filter:brightness(1.12)}
+.bl .sep{font:500 11px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+@media(max-width:520px){.bi{grid-template-columns:minmax(0,1fr);gap:3px}}
+.unit{font-size:11px;color:var(--muted)}
+.facts{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.facts li{font-size:14px;color:var(--ink2);padding-left:14px;border-left:2px solid var(--line2)}
+.facts b{color:var(--ink);font-weight:600}
+
+/* trend */
+.cols{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;align-items:end;height:190px;border-bottom:1px solid var(--line2);padding-top:4px}
+.col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.col .cv{font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.col i{display:block;width:min(24px,60%);background:var(--bar);border-radius:4px 4px 0 0}
+.col:hover i{filter:brightness(1.12)}
+.colx{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:6px;text-align:center;font:11px var(--mono);color:var(--muted)}
+
+/* observations */
+.obs{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px 36px}
+.obs li{min-width:0;border-top:1px solid var(--line2);padding-top:10px}
+.obs h3{font-size:15px;margin-bottom:4px}
+.obs p{font-size:14px;color:var(--ink2)}
+.obs .src{font:11px var(--mono);color:var(--muted);margin-top:6px}
+
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px 36px}
+.method>div{min-width:0}
+.method h3{margin-bottom:4px}
+.method p,.method li{font-size:13.5px;color:var(--ink2)}
+.method ul{padding-left:18px;margin:0}
+.method li+li{margin-top:4px}
+.srclist{columns:2 320px;column-gap:36px;margin:0;padding-left:30px;font-size:13px}
+.srclist li{break-inside:avoid;margin-bottom:5px;overflow-wrap:anywhere}
+
+#tip{position:fixed;z-index:50;left:0;top:0;max-width:280px;padding:8px 10px;border-radius:6px;background:var(--surface);color:var(--ink);border:1px solid var(--line2);box-shadow:0 4px 18px rgba(0,0,0,.18);font-size:12.5px;line-height:1.4;pointer-events:none}
+#tip b{display:block;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+#tip span{display:block;color:var(--ink2)}
+#tip .k{color:var(--muted);font-size:11.5px}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow">Section 135, Companies Act 2013 · FY2024-25 · ₹ crore · snapshot 7 Oct 2026</p>
+    <h1>India CSR Flows</h1>
+    <p class="lead">Who spends India's mandatory CSR money, on what, and what they have committed next. Forty companies with a verified FY25 figure, set against the ₹40,794 cr spent nationally.</p>
+    <div class="stats" id="stats"></div>
+    <p class="snapnote">This is a dated snapshot built from published sources, not a live feed. Where a value could not be found it says so, and nothing is estimated. Totals and shares calculated from published figures are marked as computed. FY25 means April 2024 to March 2025, and 1 crore is 10 million.</p>
+    <nav class="jump" aria-label="Sections">
+      <a href="#who">Who spends</a><a href="#goes">Where it goes</a><a href="#lands">Where it lands</a><a href="#next">Committed next</a><a href="#read">Reading the flow</a><a href="#method">Totals and method</a>
+    </nav>
+  </header>
+
+  <section id="who">
+    <h2>Who spends</h2>
+    <p class="sub">Ranked by FY25 figure within the 40 companies where a figure could be verified. It is not a certified national top 40: sources differ in basis, and some large spenders may be missing. Open a row for areas of impact, impact details, FY26 where found, commitments and sources.</p>
+    <div class="share" id="share" role="img" aria-label="Share of the verified total by sector group"></div>
+    <p class="sharecap" id="sharecap"></p>
+    <div class="chips" id="chips" role="group" aria-label="Filter by sector group"></div>
+    <div class="ctl">
+      <input class="search" id="q" type="search" placeholder="Search company" aria-label="Search company">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" id="vBars" aria-pressed="true">Bars</button>
+        <button type="button" id="vTable" aria-pressed="false">Table</button>
+      </div>
+      <button type="button" class="btn" id="expAll">Expand all</button>
+      <button type="button" class="btn" id="reset" hidden>Clear filters</button>
+    </div>
+    <p class="unit" id="count" aria-live="polite"></p>
+    <div id="listHost"></div>
+  </section>
+
+  <section id="goes">
+    <h2>Where the money goes</h2>
+    <p class="sub">Two views of the same flow. The national view covers every reporting company but only part of the sector list could be retrieved. The listed-company view has the full Schedule VII split, for the 531 NSE-listed companies that disclosed one.</p>
+    <div class="panels">
+      <div class="panel">
+        <h3>National, by sector (FY25)</h3>
+        <p class="cap">MCA CSR portal via Dataful and Fulcrum. ₹ crore. Only the first ten sectors alphabetically could be retrieved, so the last bar is the balance to ₹40,794 cr (computed).</p>
+        <div class="bl" id="natThemes"></div>
+      </div>
+      <div class="panel">
+        <h3>Listed companies, by Schedule VII theme</h3>
+        <p class="cap">PRIME Infobase, 531 NSE-listed companies with a disclosed breakdown. ₹ crore, with PRIME's published share in brackets.</p>
+        <div class="bl" id="primeThemes"></div>
+      </div>
+    </div>
+    <ul class="facts" style="margin-top:28px" id="goesFacts"></ul>
+  </section>
+
+  <section id="lands">
+    <h2>Where it lands</h2>
+    <p class="sub">Geography and delivery route. State and route figures come from the same 531-company PRIME sample, so read them as a pattern, not a national count.</p>
+    <div class="panels">
+      <div class="panel">
+        <h3>Top ten states, listed-company sample</h3>
+        <p class="cap">₹ crore, with PRIME's published share in brackets. The ten states account for about 60% of the sample.</p>
+        <div class="bl" id="states"></div>
+      </div>
+      <div class="panel">
+        <h3>How the money is delivered</h3>
+        <p class="cap">Share of ₹2,584.54 cr in the same sample, by implementation route.</p>
+        <div class="bl" id="route"></div>
+        <ul class="facts" style="margin-top:22px" id="landFacts"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="next">
+    <h2>Committed next</h2>
+    <p class="sub">Forward-looking items found in company reports and coverage. Only items with a stated amount or target are listed. Where a date has already passed, the outcome is shown if one was found.</p>
+    <div class="tbl"><table id="commitTbl"></table></div>
+  </section>
+
+  <section id="read">
+    <h2>Reading the flow</h2>
+    <p class="sub">What the verified figures say about where CSR money sits. Each point names its source.</p>
+    <ul class="obs" id="obs"></ul>
+  </section>
+
+  <section id="method">
+    <h2>Totals and method</h2>
+    <p class="sub">National totals differ by source because each counts a different set of companies. They are shown side by side rather than merged.</p>
+    <div class="panels">
+      <div class="panel">
+        <h3>National CSR spend by year</h3>
+        <p class="cap">₹ crore. FY20 to FY24 from MCA data given in the Lok Sabha; FY25 from the Fulcrum report. Growth over the five years from FY20 to FY25 is about 10.3% a year (computed).</p>
+        <div class="cols" id="trend"></div>
+        <div class="colx" id="trendx"></div>
+      </div>
+      <div class="panel">
+        <h3>Why the totals differ</h3>
+        <div class="tbl"><table id="reconTbl"></table></div>
+      </div>
+    </div>
+    <div class="method" style="margin-top:34px">
+      <div>
+        <h3>What the numbers mean</h3>
+        <ul>
+          <li>The main figure for each company is its FY25 CSR spend under Section 135 as given by PRIME Infobase (drawn from company filings) or the company's annual report. Where a source gave something else, the row says so and carries a "Check basis" tag.</li>
+          <li>Group, standalone, spent and obligation figures are different measures. They are shown as reported and never converted.</li>
+          <li>Sector groups and the PSU tag are my own labels for readability, not categories from any source. Energy includes oil, gas, power and coal.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>What could not be done</h3>
+        <ul>
+          <li>The list stops at 40 because that is how many companies had a figure that could be verified from a published source. A ranked top 100 was not reachable.</li>
+          <li>Some publishers block automated reading, and the MCA portal and Dataful dashboards did not load. Figures from those came from the excerpts shown in search results and link to the page. The sector table is partial for that reason.</li>
+          <li>Fields with no published value read "Not found in the sources reviewed". Nothing was estimated to fill them.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Main sources</h3>
+        <ol class="srclist" id="mainSrc"></ol>
+      </div>
+    </div>
+  </section>
+</div>
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+const DATA=[{"n": "Reliance Industries", "fy25": 1309.5, "sector": "Energy", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (obligation ₹1,048 cr, excess ₹261.50 cr, +46% on FY24).", "focus": "Rural transformation, healthcare, education and skill, sports for development, environment, women empowerment, disaster management, arts and heritage, animal welfare.", "impact": ["Reliance Foundation has reached 8.6 crore lives since 2010 (annual report 2024-25); FY26 coverage cites 9.7 crore.", "About ₹765 cr in grants to NGOs and foundations in FY25."], "fy26": "₹1,223 cr (obligation ₹1,032 cr, excess ₹191 cr).", "commit": null, "note": "The annual report also states ₹2,156 cr towards CSR. That is the contribution to society line in the value-added statement, not the Section 135 spend.", "links": [["Reliance annual report 2024-25, social and relationship capital", "https://www.ril.com/ar2024-25/social-and-relationship-capital.html"], ["India CSR, Reliance FY26 spending report", "https://indiacsr.in/reliance-industries-csr-spending-report-fy-2025-26/"], ["India CSR, Reliance Foundation NGO funding", "https://indiacsr.in/ngos-csr-funding-reliance-foundation/"], ["PRIME"]]}, {"n": "HDFC Bank", "fy25": 1068.03, "sector": "BFSI", "psu": null, "flag": false, "basis": "Section 135 spend per the company CSR report and PRIME (Fulcrum lists ₹1,039 cr).", "focus": "Rural development, education, skill training, healthcare and hygiene, financial literacy and inclusion, natural resource management (new in FY25).", "impact": ["10.56 crore lives touched cumulatively since 2014, across 28 states and 8 UTs.", "Reached 102 of 112 aspirational districts and 298 border villages.", "2,646 smart schools; 7.2 lakh youth trained.", "Waste management in 551 villages; 15,289 water structures in 10,430 villages.", "214 partners. Cumulative CSR spend ₹6,176 cr. Impact assessment spend ₹7.82 cr."], "fy26": null, "commit": null, "note": null, "links": [["The Week, HDFC Bank CSR", "https://www.theweek.in/wire-updates/business/2025/12/23/dcm58-biz-hdfc-bank-csr.html"], ["HDFC Bank CSR report 2025", "https://www.sustainabilityreports.com/hdfc-bank/2025/csr-report"], ["Cause Because, HDFC Bank", "https://medium.causebecause.com/?p=12416"], ["PRIME"]]}, {"n": "Tata Consultancy Services", "fy25": 960.0, "sector": "IT", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (Fulcrum lists ₹949 cr).", "focus": "Education, skilling, employment and entrepreneurship (Ignite My Future, goIT, Youth Employment Program).", "impact": ["Community programmes empowered 14.75 million people globally in FY25 (integrated report). The FY24 figure was about 7 million."], "fy26": null, "commit": null, "note": null, "links": [["TCS integrated annual report 2025", "https://www.sustainabilityreports.com/tata-consultancy-services/2025/integrated-annual-report"], ["CSR Journal, TCS", "https://thecsrjournal.in/csr-report-tcs-india-tata-consultancy-services-3"], ["PRIME"]]}, {"n": "ONGC", "fy25": 929.08, "sector": "Energy", "psu": "Central", "flag": false, "basis": "Section 135 spend per PRIME and the annual report (gross requirement ₹908.28 cr, set-off ₹30.37 cr, net obligation ₹877.90 cr; FY24 spend ₹634.57 cr).", "focus": "Healthcare, hunger, poverty and malnutrition (₹441.87 cr, 47.56%); education and livelihood (₹248.98 cr, 26.80%); disaster management (₹83.86 cr).", "impact": ["28 capital assets worth ₹28.90 cr."], "fy26": "₹942.88 cr. Education and livelihood ₹276.47 cr; rural infrastructure ₹43.28 cr; 38 capital assets; ₹97.79 cr moved to the Unspent CSR Account on 30 Apr 2026.", "commit": "₹25 cr pledge for Assam flood recovery (schools and the Chief Minister's relief fund).", "note": null, "links": [["India CSR, ONGC FY25", "https://indiacsr.in/ongc-csr-spending-reaches-record-crore-in-fy-2024-25/"], ["India CSR, ONGC FY26", "https://indiacsr.in/ongc-spends-rs-942-88-cr-on-csr-in-fy-2025-26/"], ["PRIME"]]}, {"n": "ICICI Bank", "fy25": 801.12, "sector": "BFSI", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (obligation ₹800.82 cr, of which ₹797.49 cr routed via ICICI Foundation; FY24 spend ₹518.87 cr; impact assessment ₹0.19 cr).", "focus": "Healthcare (the largest share), skilling and livelihoods, environment and water, financial literacy.", "impact": ["1.89 crore people reached in FY25.", "10 lakh SHG women in FY25 (1.1 crore cumulative).", "91 lakh+ people in skilling, agriculture and microenterprise.", "17,453 water bodies restored; 3,387 crore litres of water capacity."], "fy26": "Allocation ₹994 cr (+24%). 1.98 crore lives reached. Skilling reached 3.54 lakh in FY26 (94.5 lakh cumulative). 86,600 trees planted (50 lakh since FY22). Water capacity 3,437 crore litres.", "commit": "Support to Tata Memorial Centre raised to ₹1,800 cr for three new cancer hospitals; cancer blocks under construction at Visakhapatnam and Navi Mumbai; an oncology research and innovation centre at IISc.", "note": "An Angel One article reports only ₹527 cr spent, which conflicts with PRIME. ₹274 cr is reported as unspent, including ₹250 cr earmarked for cancer care.", "links": [["India CSR, ICICI Bank FY25", "https://indiacsr.in/icici-bank-commits-over-rs-800-crore-to-csr-initiatives-in-fy2025/"], ["CSR Journal, ICICI Bank FY25 impact", "https://thecsrjournal.in/csr-news-icici-bank-impacts-lives-inclusive-development-initiatives-fy25/"], ["India CSR, ICICI Bank FY26 allocation", "https://indiacsr.in/icici-bank-boosts-csr-allocation-by-24-percent-to-rs-994-cr/"], ["CSR Universe, ICICI Bank FY26", "https://thecsruniverse.com/articles/icici-bank-s-csr-spend-rises-to-994-crore-esg-initiatives-impact-over-1-98-crore-lives"], ["PRIME"]]}, {"n": "State Bank of India", "fy25": 610.77, "sector": "BFSI", "psu": "Central", "flag": true, "basis": "Annual report figure via India CSR. SBI follows an RBI mandate of 1%, not Section 135, so PRIME's ranking leaves it out.", "focus": "Health and sanitation 35%, education 27%, environment 11%, rural development 11% (Angel One).", "impact": ["1,408 activities. SBI Foundation funded 180 projects valued at ₹485.83 cr and disbursed ₹264 cr.", "₹16.50 cr in aspirational districts.", "538 primary schools upgraded (₹22.89 cr); 586 Anganwadi centres (₹5.91 cr).", "6.5 million beneficiaries."], "fy26": "₹709.01 cr. 1,529 activities; 20,000+ villages; 58 lakh+ people. Health and sanitation ₹63.81 cr (30 lakh+ people). 164 RSETIs and 1,47,396 people trained. ₹17.26 cr in aspirational districts; environment ₹20.01 cr; war veterans ₹12.79 cr.", "commit": null, "note": null, "links": [["India CSR, SBI FY25", "https://indiacsr.in/sbi-csr-spending-report-rs-610-crore-fy-2025/"], ["India CSR, SBI FY26", "https://indiacsr.in/sbi-csr-spending-fy-2025-26/"], ["Angel One, banks boost CSR spending in FY25", "https://oga-prod.angelone.in/news/market-updates/banks-boost-csr-spending-in-fy25-hdfc-bank-leads-with-rs-1068-crore"]]}, {"n": "Tata Steel", "fy25": 584.61, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME and India CSR (obligation ₹580.09 cr; Fulcrum lists ₹580 cr).", "focus": null, "impact": ["5.77 million lives across Jharkhand, Odisha, Maharashtra, Uttar Pradesh, Punjab and West Bengal.", "25,000+ women in leadership training.", "₹5,300+ cr of public entitlements unlocked, including ₹160 cr in the Jamshedpur-Kalinganagar corridor through 47,000 community members.", "16,505 employees volunteered 1,90,522 hours.", "₹2,274 cr standalone CSR over five years."], "fy26": null, "commit": null, "note": "The FY26 results deck mentions about 7 million lives impacted through CSR programmes. The period is not clear, so it is not used here.", "links": [["India CSR, Tata Steel", "https://indiacsr.in/?p=169326"], ["Tata Steel integrated report 2024-25, social and relationship capital", "https://www.tatasteel.com/investors/integrated-report-2024-25/social-relationship-capital.html"], ["PRIME"]]}, {"n": "Indian Oil Corporation", "fy25": 583.03, "sector": "Energy", "psu": "Central", "flag": false, "basis": "Section 135 spend per PRIME (CPSE list shows ₹583.04 cr; Fulcrum lists ₹555 cr).", "focus": null, "impact": ["100% budget utilisation for an eighth year in a row.", "1.36 crore beneficiaries.", "TB elimination support: 249 molecular diagnostic machines and 102 handheld X-ray units.", "₹61.19 cr across 53 aspirational districts."], "fy26": null, "commit": null, "note": null, "links": [["India CSR, IndianOil FY25", "https://indiacsr.in/indianoil-csr-spend-in-fy-2024-25/"], ["PRIME"]]}, {"n": "Infosys", "fy25": 526.26, "sector": "IT", "psu": null, "flag": false, "basis": "Section 135 spend (India) per PRIME (Fulcrum lists ₹519 cr; impact assessment ₹0.84 cr).", "focus": "STEM education, healthcare, women empowerment, rural development, art and culture, environment, disaster management.", "impact": ["10 million beneficiaries in India.", "13.3 million learners in digital skills (15 million+ in FY26).", "Infosys Foundation says over 1 crore people transformed."], "fy26": null, "commit": null, "note": "The integrated report cites global CSR spend of ₹628 cr in FY25 and ₹666 cr in FY26. That is a global figure, so it is not comparable with the others.", "links": [["Infosys annual report 2024-25, social and relationship capital", "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2024-25/social-and-relationship-capital.pdf"], ["Infosys annual report 2025-26, social and relationship capital", "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2025-26/social-and-relationship-capital.pdf"], ["Infosys Foundation report 2024-25", "https://www.infosys.org/infosys-foundation/about/reports/documents/infosys-foundation-report-2024-25.pdf"], ["PRIME"]]}, {"n": "Reliance Jio Infocomm", "fy25": 482.0, "sector": "Telecom", "psu": null, "flag": true, "basis": "CSR obligation per the MCA-based Fulcrum list (+20%). Jio is unlisted, so PRIME does not cover it.", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["India CSR, top companies by CSR spend (Fulcrum)", "https://indiacsr.in/csr-spending-top-companies-invest-eliance-industries-ranks-first/"]]}, {"n": "ITC", "fy25": 461.5, "sector": "Consumer", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (Fulcrum lists ₹435 cr; impact assessment ₹3.62 cr).", "focus": "Livelihoods, climate-smart agriculture, water stewardship, biodiversity, afforestation, livestock, women's empowerment, education, skilling.", "impact": ["60 lakh+ sustainable livelihoods (FY24 report).", "About 28 lakh acres under climate-smart agriculture (FY24 report)."], "fy26": null, "commit": null, "note": null, "links": [["ITC report and accounts 2024", "https://www.sustainabilityreports.com/itc-ltd/2024/report-and-accounts"], ["ITC sustainability portal", "https://www.itcportal.com/esg-popup.aspx"], ["PRIME"]]}, {"n": "Axis Bank", "fy25": 426.57, "sector": "BFSI", "psu": null, "flag": true, "basis": "Annual report figure via India CSR. The bank's KPI (₹427 cr) includes amounts transferred to Unspent CSR accounts.", "focus": "Sustainable Livelihood Programme, education (Axis DilSe), IISc-Axis Bank Centre for Mathematics and Computing, Plaksha University building.", "impact": ["3.9 lakh people benefited from livelihoods projects in FY25."], "fy26": "Spent ₹421.66 cr and moved ₹108.45 cr to the Unspent account, ₹530.11 cr in all, against an obligation of ₹529.49 cr.", "commit": "Sustainable Livelihood Programme goal of 2.7 million families by 2025; 2 million trees by 2027 (1.33 million planted, per the 2024 report).", "note": null, "links": [["India CSR, Axis Bank FY25", "https://indiacsr.in/axis-bank-spends-rs-426-57-crore-on-corporate-social-responsibility-csr-in-fy-2025/"], ["India CSR, Axis Bank FY26", "https://indiacsr.in/axis-bank-reports-rs-530-11-cr-csr-obligation-coverage/"], ["Axis Bank CSR impact report 2024", "https://www.sustainabilityreports.com/axis-bank/2024/csr-impact-report"]]}, {"n": "NTPC", "fy25": 362.94, "sector": "Energy", "psu": "Central", "flag": false, "basis": "Section 135 spend per PRIME and the CPSE list (Fulcrum lists ₹351 cr; FY24 spend ₹200.57 cr).", "focus": "Health, sanitation, safe drinking water, education.", "impact": ["FY24 group CSR spend of ₹254.62 cr reached 16.3 lakh lives."], "fy26": null, "commit": null, "note": "NTPC's own site shows ₹383.07 cr including CSR and sustainable development, and ₹450.72 cr including set-off.", "links": [["NTPC corporate social responsibility", "https://www.ntpc.co.in/about-us/corporate-functions/corporate-citizenship/corporate-social-responsibility"], ["CSR Journal, NTPC", "https://thecsrjournal.in/tag/csr-of-ntpc/"], ["PRIME"]]}, {"n": "Power Grid Corporation", "fy25": 360.19, "sector": "Energy", "psu": "Central", "flag": true, "basis": "Standalone figure from the annual report (obligation ₹349.45 cr). The consolidated figure is ₹386.84 cr.", "focus": "Skill training (₹32.70 cr), solar lighting (₹6.46 cr), education and learning support.", "impact": [], "fy26": null, "commit": null, "note": "A ₹391.16 cr figure in a BRSR snippet is not used because its year is unclear.", "links": [["India CSR, Power Grid FY25", "https://indiacsr.in/powergrid-spent-rs-360-crore-corporate-social-responsibility-csr-initiatives-fy25/"], ["Power Grid integrated annual report FY2024-25", "https://www.powergrid.in/IntegratedAnnualReportFY2024-25/IntegratedAnnualReportFY2024-25.html"]]}, {"n": "Bharat Petroleum (BPCL)", "fy25": 358.14, "sector": "Energy", "psu": "Central", "flag": false, "basis": "CPSE top-5 list reported by Business Standard. No further detail was found.", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["Business Standard via Vision IAS, CSR spending of 183 CPSEs", "https://visionias.in/current-affairs/upsc-daily-news-summary/article/2025-12-27/business-standard/economy/csr-spending-of-183-cpses-surged-31-to-record-rs6437-crore-in-fy25"]]}, {"n": "REC Limited", "fy25": 289.0, "sector": "BFSI", "psu": "Central", "flag": false, "basis": "ESG report FY25 (summary on sustainabilityreports.com).", "focus": "Healthcare, education, rural development.", "impact": ["1 million+ people benefited."], "fy26": null, "commit": "Cumulative commitment above ₹2,000 cr with about ₹1,300 cr disbursed (mid-2024). ₹10 cr for nine Mobile Medical Units over three years (Doctor Aapke Dwaar). ₹8.44 cr for a 1 MW solar plant at Gandhigram Rural Institute.", "note": null, "links": [["REC ESG report 2025", "https://www.sustainabilityreports.com/rec-ltd/2025/esg-report"], ["Business World, REC Mobile Medical Units", "https://businessworld.in/article/rec-commits-rs-10-cr-for-mobile-medical-units-under-its-flagship-initiative-doctor-aapke-dwaar-526669"]]}, {"n": "HCLTech", "fy25": 281.34, "sector": "IT", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (impact assessment ₹1.22 cr).", "focus": "HCLFoundation programmes: Samuday, Uday, HCLTech Grant, Harit, My Clean City, Sports for Change.", "impact": ["Cumulative ₹1,680 cr invested and 7.5+ million lives reached till FY25.", "HCLTech Grant: ₹152.8 cr committed to 59 projects reaching 2.2+ million lives across 131 districts in 22 states and 2 UTs.", "Grant in its 10th year: 13,925 NGOs registered and 1,615 applied.", "Uday reached 1.2 million people in 11 cities."], "fy26": null, "commit": "HCLTech Grant has committed ₹152.8 cr to 59 projects.", "note": null, "links": [["HCLTech annual report 2025, CSR", "https://www.hcltech.com/hcl-annual-report-2025/csr"], ["PRIME"]]}, {"n": "Power Finance Corporation", "fy25": 270.28, "sector": "BFSI", "psu": "Central", "flag": true, "basis": "Standalone figure from the annual report (obligation ₹257.70 cr; projects ₹168.93 cr; admin ₹6.61 cr; ₹81.92 cr moved to the Unspent account). The consolidated figure is ₹564.18 cr.", "focus": "Health and nutrition (the FY25 theme).", "impact": ["Sanitation and safe drinking water: ₹166 cr sanctioned and ₹193 cr disbursed (as reported).", "Cumulative ₹1,966 cr sanctioned and ₹1,683 cr disbursed (scope as reported by India CSR).", "CSR budget rose from ₹215 cr to ₹258 cr."], "fy26": null, "commit": "₹1,966 cr sanctioned cumulatively.", "note": null, "links": [["India CSR, PFC FY25", "https://indiacsr.in/power-finance-corporation-csr-spending-report-of-rs-270-crore-for-fy-2025/"], ["India CSR, PFC Unspent CSR Account transfer", "https://indiacsr.in/power-finance-transfers-rs-82-crore-unspent-csr-account-fy25/"]]}, {"n": "Jindal Steel", "fy25": 267.42, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (prescribed amount ₹167.03 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Bajaj Finance", "fy25": 257.5, "sector": "BFSI", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (FY24 spend ₹179.52 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Hindustan Unilever", "fy25": 254.02, "sector": "Consumer", "psu": null, "flag": false, "basis": "Section 135 spend per the annual report (obligation ₹250.12 cr, excess ₹3.90 cr; projects ₹244.55 cr; admin ₹6.98 cr; impact assessment ₹2.49 cr).", "focus": "Water conservation, Project Shakti livelihoods, health and wellbeing.", "impact": ["2 lakh+ Shakti women.", "The Suvidha model saved 18 crore litres of water.", "₹32.93 cr in 109 aspirational districts."], "fy26": null, "commit": null, "note": null, "links": [["India CSR, HUL FY25", "https://indiacsr.in/hindustan-unilever-csr-spending-report-of-rs-254-02-crore-fy25/"], ["India CSR, HUL aspirational districts", "https://indiacsr.in/hul-invests-csr-funds-to-uplift-aspirational-districts/"], ["PRIME"]]}, {"n": "Kotak Mahindra Bank", "fy25": 241.2, "sector": "BFSI", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (FY24 spend ₹119.73 cr; impact assessment ₹1.21 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Bharti Airtel (group)", "fy25": 237.83, "sector": "Telecom", "psu": null, "flag": true, "basis": "Group figure. Airtel Ltd ₹47.28 cr plus subsidiaries ₹190.55 cr. Obligation ₹60.74 cr before set-off (₹47.12 cr net).", "focus": "Education through the Bharti Airtel Foundation.", "impact": [], "fy26": null, "commit": null, "note": "₹16.6 cr went to the ongoing-projects account.", "links": [["India CSR, Bharti Airtel FY25", "https://indiacsr.in/bharti-airtel-csr-spending-report-rs-238-crore-fy-2025/"]]}, {"n": "Wipro", "fy25": 202.6, "sector": "IT", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (prescribed amount ₹124.50 cr).", "focus": null, "impact": [], "fy26": "₹227.4 cr, with a surplus over the requirement.", "commit": "FY25 target of 4.9 million lives (nasscom, 2024).", "note": null, "links": [["India CSR, Wipro FY25", "https://indiacsr.in/wipro-allocates-rs-202-60-crore-for-corporate-social-responsibility-csr-initiatives-in-fy-2025/"], ["India CSR, Wipro FY26", "https://indiacsr.in/wipro-csr-spending-report-fy-2025-26/"], ["nasscom, tech companies and CSR impact", "https://community.nasscom.in/communities/tech-good/5-major-tech-companies-impact-154-million-lives-through-csr"], ["PRIME"]]}, {"n": "JSW Steel", "fy25": 189.27, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Amount spent. The obligation was ₹297.42 cr, and about ₹108 cr was left unspent and transferred.", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["India CSR, JSW Steel FY25", "https://indiacsr.in/jsw-steel-csr-spending-report-rs-297-crore-fy25/"]]}, {"n": "UltraTech Cement", "fy25": 165.16, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Per India CSR (FY22 ₹96 cr, FY23 ₹116 cr, FY24 ₹136 cr).", "focus": null, "impact": ["Five-year cumulative spend ₹681.86 cr.", "507 villages; ₹7.61 cr in two aspirational districts (as reported)."], "fy26": "₹168.70 cr (+2.14%).", "commit": null, "note": null, "links": [["India CSR, UltraTech five-year CSR", "https://indiacsr.in/ultratech-cement-csr-spending-five-years/"]]}, {"n": "Larsen & Toubro", "fy25": 163.65, "sector": "Other", "psu": null, "flag": false, "basis": "Section 135 spend per the annual report (obligation ₹151.95 cr, excess ₹11.70 cr; admin ₹7.77 cr; impact assessment ₹0.43 cr).", "focus": "Water and sanitation, education, healthcare, skill development.", "impact": ["1.9 million people reached against a target of 1.7 million by FY26 (exceeded).", "1,339 capital assets."], "fy26": null, "commit": "Target of 1.7 million people by FY26, already exceeded at 1.9 million.", "note": null, "links": [["India CSR, L&T FY25", "https://indiacsr.in/lt-spends-rs-164-crore-csr-initiatives-fy25/"]]}, {"n": "Hindalco Industries", "fy25": 160.99, "sector": "Metals and materials", "psu": null, "flag": true, "basis": "Total outlay including subsidiaries, per India CSR. Standalone: ₹64.33 cr spent plus ₹54 cr moved to the Unspent account (₹118.33 cr) against an obligation of ₹117.74 cr. Subsidiaries: ₹42.41 cr.", "focus": "Healthcare, education, livelihood, infrastructure (standalone / subsidiaries, ₹ cr: healthcare 12.55 / 16.55; education 31.32 / 5.29; livelihood 6.40 / 6.61; infrastructure 3.97 / 11.38).", "impact": ["Over ₹29 cr in aspirational districts.", "The integrated report shows total community spend of ₹235.38 cr and 5 million+ lives, a broader measure."], "fy26": null, "commit": null, "note": "The standalone and subsidiary components as reported differ from the headline by ₹0.25 cr.", "links": [["India CSR, Hindalco FY25", "https://indiacsr.in/hindalco-industries-csr-spending-report-rs-160-99-crore-fy25/"], ["Hindalco integrated report 2024-25, social and relationship capital", "https://www.hindalco.com/flip-book-IR-2024-25/assets/pdf/Social-and-Relationship-Capital.pdf"]]}, {"n": "Maruti Suzuki India", "fy25": 158.48, "sector": "Auto", "psu": null, "flag": false, "basis": "Section 135 spend per the annual report (obligation ₹139.94 cr, excess ₹18.54 cr; projects ₹151.13 cr; admin ₹7.11 cr).", "focus": null, "impact": ["Sitapur hospital served 1.25 lakh+ patients across 400 villages.", "In 8 Haryana villages: 19,000 people reached, 4,520 toilets built, 25 water ATMs serving 38,500 people.", "674 capital assets."], "fy26": null, "commit": null, "note": null, "links": [["India CSR, Maruti Suzuki FY25", "https://indiacsr.in/maruti-suzuki-india-spends-rs-158-crore-on-csr-in-fy-2025/"]]}, {"n": "Mahindra & Mahindra", "fy25": 152.36, "sector": "Auto", "psu": null, "flag": false, "basis": "Section 135 spend per the annual report (obligation ₹152.23 cr; projects ₹146.87 cr; admin ₹5.24 cr; impact assessment ₹0.03 cr).", "focus": "Empowering girls and women, water conservation, education, employability.", "impact": ["Nanhi Kali supported 1,79,175 girls in FY25 (8,74,266 since inception).", "1,000 teachers trained.", "Independent impact assessment of 5 projects by BlueSky."], "fy26": null, "commit": null, "note": null, "links": [["Mahindra annual report FY2025", "https://www.mahindra.com/annual-report-FY2025/111/"], ["India CSR, Mahindra & Mahindra", "https://indiacsr.in/csr-mahindra-mahindra-invest-social-development/"]]}, {"n": "Adani Power", "fy25": 141.92, "sector": "Energy", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (FY24 spend ₹39.06 cr). The annual report CSR page lists ₹71.03 cr to Adani Foundation, ₹24.50 cr to Adani Medicity and Research Center, ₹45.29 cr to Adani Institute for Education and ₹0.86 cr to Adani Skill Development Centre (sum ₹141.68 cr).", "focus": "Funds channelled to Adani Foundation, Adani Medicity and Research Center, Adani Institute for Education and Adani Skill Development Centre.", "impact": [], "fy26": null, "commit": null, "note": "Group context: the consolidated Adani portfolio reports ₹539 cr towards CSR for FY25.", "links": [["Adani Power annual report 2025, CSR overview", "https://connect.adani.com/annual_report/2025/power/csr-overview.html"], ["Adani Energy Solutions annual report 2025", "https://connect.adani.com/annual_report/2025/aesl/index.html"], ["PRIME"]]}, {"n": "Vedanta", "fy25": 123.0, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (prescribed amount ₹15.00 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Coal India (standalone)", "fy25": 95.73, "sector": "Energy", "psu": "Central", "flag": true, "basis": "Standalone Section 135 spend per PRIME (prescribed amount ₹16.25 cr; 11.78% of profit).", "focus": "Flagships: Thalassemia Bal Sewa Yojana, Nanha Sa Dil.", "impact": ["CIL spent ₹5,570 cr over a decade (Business Standard, Dec 2024).", "In a Lok Sabha answer, MCL alone reported ₹228.08 cr in FY25 and ₹140.25 cr in FY26."], "fy26": null, "commit": null, "note": "The group including subsidiaries appears as ₹850.17 cr in secondary sources only, so it is not verified here.", "links": [["Lok Sabha answer AU1776", "https://eparlib.sansad.in/bitstream/123456789/3019202/1/AU1776_tfphSF.pdf"], ["PRIME"]]}, {"n": "Grasim Industries", "fy25": 88.54, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME.", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Gujarat Mineral Development Corp", "fy25": 78.59, "sector": "Metals and materials", "psu": "State", "flag": false, "basis": "Section 135 spend per PRIME (prescribed amount ₹21.57 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Lloyds Metals & Energy", "fy25": 69.34, "sector": "Metals and materials", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (prescribed amount ₹9.96 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Sun Pharma", "fy25": 50.83, "sector": "Other", "psu": null, "flag": true, "basis": "Standalone figure from the annual report (obligation ₹57.78 cr; ₹4.74 cr moved to the Unspent account).", "focus": null, "impact": ["The sustainability report separately cites ₹1,424 million (₹142.4 cr) and about 4.47 million lives across 1,000+ habitations. The basis is unclear and is likely broader than Section 135.", "The Mobile Healthcare Unit project costs about ₹200 cr, shared with other participants."], "fy26": null, "commit": null, "note": null, "links": [["India CSR, Sun Pharma FY25", "https://indiacsr.in/sun-pharma-csr-spending-report-rs-50-83-crore-fy25/"], ["Sun Pharma sustainability, chairman's message", "https://sunpharma.com/responsibility/sustainability/assets/pdf/chairman-msg.pdf"]]}, {"n": "Eicher Motors", "fy25": 50.25, "sector": "Auto", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (impact assessment ₹0.73 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "Godrej Consumer Products", "fy25": 38.56, "sector": "Consumer", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (impact assessment ₹0.60 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}, {"n": "LIC Housing Finance", "fy25": 30.28, "sector": "BFSI", "psu": null, "flag": false, "basis": "Section 135 spend per PRIME (impact assessment ₹0.99 cr).", "focus": null, "impact": [], "fy26": null, "commit": null, "note": null, "links": [["PRIME"]]}];
+const PRIME=["PRIME Infobase, CSR spend by NSE-listed companies 2024-25","http://www.primedatabasegroup.com/newsroom/CSR%20spend%20by%20NSE-listed%20companies%20in%202024-25_primeinfobase.pdf"];
+const SECTORS=[["BFSI","--s1"],["Energy","--s2"],["IT","--s3"],["Metals and materials","--s4"],["Consumer","--s5"],["Auto","--s6"],["Telecom","--s7"],["Other","--s8"]];
+const SECVAR=Object.fromEntries(SECTORS);
+const NATIONAL=40794;
+const FY26S={"Reliance Industries":"₹1,223 cr","ONGC":"₹942.88 cr","ICICI Bank":"₹994 cr (allocation)","State Bank of India":"₹709.01 cr","Axis Bank":"₹530.11 cr (incl. unspent)","Wipro":"₹227.4 cr","UltraTech Cement":"₹168.70 cr"};
+
+const nf=(n,d=2)=>n.toLocaleString("en-IN",{minimumFractionDigits:d,maximumFractionDigits:d});
+const n0=n=>n.toLocaleString("en-IN",{maximumFractionDigits:0});
+const cr=n=>"₹"+(n>=1000?n0(n):nf(n))+" cr";
+function el(tag,attrs,...kids){
+  const e=document.createElement(tag);
+  for(const k in (attrs||{})){const v=attrs[k]; if(v===false||v==null)continue; if(k==="class")e.className=v; else if(k==="text")e.textContent=v; else e.setAttribute(k,v===true?"":v)}
+  for(const c of kids.flat()){ if(c==null||c===false)continue; e.append(c.nodeType?c:document.createTextNode(c)) }
+  return e;
+}
+const $=id=>document.getElementById(id);
+const notFound=()=>el("span",{class:"nf",text:"Not found in the sources reviewed."});
+
+/* tooltip */
+const tip=$("tip");
+function placeTip(x,y){
+  const w=tip.offsetWidth,h=tip.offsetHeight,vw=document.documentElement.clientWidth,vh=window.innerHeight;
+  let l=x+14,t=y+16; if(l+w>vw-8)l=Math.max(8,x-w-14); if(t+h>vh-8)t=Math.max(8,y-h-14);
+  tip.style.left=l+"px"; tip.style.top=t+"px";
+}
+function hideTip(){tip.hidden=true}
+function attachTip(node,build){
+  const show=(x,y)=>{tip.replaceChildren(...build()); tip.hidden=false; placeTip(x,y)};
+  node.addEventListener("pointermove",e=>{ if(e.pointerType==="touch")return; show(e.clientX,e.clientY)});
+  node.addEventListener("pointerleave",hideTip);
+  node.addEventListener("focus",()=>{const r=node.getBoundingClientRect(); show(r.left+Math.min(r.width,200)/2,r.top+Math.min(r.height,24))});
+  node.addEventListener("blur",hideTip);
+}
+window.addEventListener("scroll",hideTip,{passive:true});
+
+/* derived numbers (computed) */
+const total=DATA.reduce((a,c)=>a+c.fy25,0);
+const bySector=SECTORS.map(([s,v])=>{const cs=DATA.filter(c=>c.sector===s);return{s,v,sum:cs.reduce((a,c)=>a+c.fy25,0),n:cs.length}}).sort((a,b)=>b.sum-a.sum);
+const maxVal=Math.max(...DATA.map(c=>c.fy25));
+
+/* stats */
+(function(){
+  const items=[
+    {v:"₹"+n0(NATIONAL)+" cr",l:"CSR spent by companies in FY25, up 17%",s:"Fulcrum, from MCA filings",hero:true},
+    {v:n0(29546),l:"companies reported CSR spend, 1,012 of them new",s:"Fulcrum"},
+    {v:"₹"+n0(total)+" cr",l:"verified on this page, "+Math.round(total/NATIONAL*100)+"% of the national total",s:"computed, 40 companies"},
+    {v:"₹7,123 cr",l:"spent by the ten largest, 17% of the total",s:"Fulcrum"}
+  ];
+  $("stats").append(...items.map(i=>el("div",{class:"stat"+(i.hero?" hero":"")},el("div",{class:"v",text:i.v}),el("div",{class:"l",text:i.l}),el("div",{class:"s",text:i.s}))));
+})();
+
+/* sector share bar + chips */
+const sel=new Set(); let query=""; let view="bars"; const open=new Set();
+(function(){
+  const sh=$("share");
+  bySector.forEach(b=>{
+    const seg=el("i",{style:`width:${b.sum/total*100}%;background:var(${b.v})`,tabindex:"0","aria-label":`${b.s}: ${cr(b.sum)}`});
+    attachTip(seg,()=>[el("b",{text:cr(b.sum)}),el("span",{text:b.s}),el("span",{class:"k",text:`${b.n} companies, ${nf(b.sum/total*100,1)}% of the list`})]);
+    sh.append(seg);
+  });
+  $("sharecap").textContent=`Share of the ${cr(total)} in this list, by sector group (computed). Select groups to filter.`;
+  const ch=$("chips");
+  bySector.forEach(b=>{
+    const c=el("button",{type:"button",class:"chip","aria-pressed":"false","data-s":b.s},el("i",{style:`background:var(${b.v})`}),b.s,el("span",{class:"m",text:`${cr(b.sum)} · ${b.n}`}));
+    c.addEventListener("click",()=>{ if(sel.has(b.s))sel.delete(b.s); else sel.add(b.s); render() });
+    ch.append(c);
+  });
+})();
+
+/* company list */
+function linksList(links){
+  return el("ul",{class:"srcs"},links.map(l=>{const t=l.length===1?PRIME:l; return el("li",null,el("a",{href:t[1],target:"_blank",rel:"noopener"},t[0]))}));
+}
+function detail(c,i){
+  const meta=[`Sector group: ${c.sector}`,c.psu?`${c.psu} government PSU`:"Private sector"].join(" · ");
+  const d=el("div",{class:"detail",id:"d"+i});
+  const block=(h,body,cls)=>el("div",{class:cls},el("h4",{text:h}),body);
+  d.append(
+    el("div",{class:"wide"},el("p",{class:"meta",text:meta})),
+    block("Areas of impact",c.focus?el("p",{text:c.focus}):notFound()),
+    block("Impact details",c.impact.length?el("ul",null,c.impact.map(t=>el("li",{text:t}))):notFound()),
+    block("FY2025-26, where found",c.fy26?el("p",{text:c.fy26}):notFound()),
+    block("Future commitments",c.commit?el("p",{text:c.commit}):notFound()),
+    block("Basis of the FY25 figure",el("div",null,el("p",{text:c.basis}),c.note?el("p",{class:"note",text:c.note}):null)),
+    block("Sources",linksList(c.links))
+  );
+  return d;
+}
+function matches(c){
+  if(sel.size&&!sel.has(c.sector))return false;
+  return !query||c.n.toLowerCase().includes(query);
+}
+function renderBars(rows){
+  const ul=el("ul",{class:"list"});
+  rows.forEach(({c,rank,i})=>{
+    const isOpen=open.has(c.n);
+    const nm=el("span",{class:"nm"},c.n,c.psu?el("span",{class:"tag",text:"PSU"}):null,c.flag?el("span",{class:"tag flag",text:"Check basis"}):null);
+    const w=`calc((100% - 74px) * ${c.fy25/maxVal})`;
+    const trk=el("span",{class:"trk"},el("span",{class:"bar",style:`width:${w};background:var(${SECVAR[c.sector]})`}),el("span",{class:"val",text:nf(c.fy25)}));
+    const head=el("button",{type:"button",class:"rowhead","aria-expanded":String(isOpen),"aria-controls":"d"+i,"data-n":c.n},el("span",{class:"rk",text:rank}),nm,trk,el("span",{class:"chev","aria-hidden":"true"}));
+    attachTip(head,()=>[el("b",{text:cr(c.fy25)}),el("span",{text:c.n}),el("span",{class:"k",text:c.sector+(c.flag?" · check basis":"")}),el("span",{class:"k",text:isOpen?"Click to collapse":"Click for details"})]);
+    const li=el("li",{class:"row"},head,isOpen?detail(c,i):null);
+    head.addEventListener("click",()=>{ if(open.has(c.n))open.delete(c.n); else open.add(c.n); hideTip(); render(); const b=[...document.querySelectorAll(".rowhead")].find(x=>x.dataset.n===c.n); if(b)b.focus({preventScroll:true}); hideTip() });
+    ul.append(li);
+  });
+  return ul;
+}
+function renderTable(rows){
+  const t=el("table");
+  t.append(el("thead",null,el("tr",null,el("th",{class:"n",text:"#"}),el("th",{text:"Company"}),el("th",{text:"Sector group"}),el("th",{class:"n",text:"FY25 ₹ cr"}),el("th",{text:"FY26, where found"}),el("th",{text:"Basis"}))));
+  const tb=el("tbody");
+  rows.forEach(({c,rank})=>{
+    tb.append(el("tr",null,
+      el("td",{class:"n",text:rank}),
+      el("td",{class:"c"},c.n,c.psu?el("span",{class:"tag",text:"PSU",style:"margin-left:6px"}):null),
+      el("td",null,el("span",{class:"sw",style:`background:var(${SECVAR[c.sector]})`}),c.sector),
+      el("td",{class:"n c",text:nf(c.fy25)}),
+      el("td",null,FY26S[c.n]?FY26S[c.n]:el("span",{class:"nf",text:"Not found"})),
+      el("td",{style:"min-width:260px"},c.flag?el("span",{class:"tag flag",text:"Check basis",style:"margin-right:6px"}):null,c.basis)
+    ));
+  });
+  t.append(tb);
+  return el("div",{class:"tbl"},t);
+}
+function render(){
+  const rows=DATA.map((c,i)=>({c,rank:i+1,i})).filter(r=>matches(r.c));
+  document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",String(sel.has(b.dataset.s))));
+  $("chips").classList.toggle("has-sel",sel.size>0);
+  $("reset").hidden=!(sel.size||query);
+  $("vBars").setAttribute("aria-pressed",String(view==="bars"));
+  $("vTable").setAttribute("aria-pressed",String(view==="table"));
+  $("expAll").hidden=view!=="bars";
+  const allOpen=rows.length>0&&rows.every(r=>open.has(r.c.n));
+  $("expAll").textContent=allOpen?"Collapse all":"Expand all";
+  const sum=rows.reduce((a,r)=>a+r.c.fy25,0);
+  $("count").textContent=rows.length?`Showing ${rows.length} of ${DATA.length} companies, ${cr(sum)} (computed)`:"";
+  const host=$("listHost");
+  if(!rows.length){host.replaceChildren(el("p",{class:"empty",text:"No company matches these filters."}));return}
+  host.replaceChildren(view==="bars"?renderBars(rows):renderTable(rows));
+}
+$("q").addEventListener("input",e=>{query=e.target.value.trim().toLowerCase();render()});
+$("vBars").addEventListener("click",()=>{view="bars";render()});
+$("vTable").addEventListener("click",()=>{view="table";render()});
+$("reset").addEventListener("click",()=>{sel.clear();query="";$("q").value="";render()});
+$("expAll").addEventListener("click",()=>{
+  const rows=DATA.filter(matches); const all=rows.every(c=>open.has(c.n));
+  rows.forEach(c=>all?open.delete(c.n):open.add(c.n)); render();
+});
+
+/* generic bar list */
+function barList(host,items,opt){
+  const o=opt||{}; const max=o.max||Math.max(...items.filter(i=>!i.sep).map(i=>i.value));
+  host.append(...items.map(it=>{
+    if(it.sep)return el("div",{class:"sep",text:it.sep});
+    const w=`calc((100% - ${it.share?138:78}px) * ${it.value/max})`;
+    const lbl=el("span",{class:"lb"},it.label,it.small?el("small",{text:it.small}):null);
+    const vt=(o.pct?nf(it.value)+"%":nf(it.value))+(it.share?` (${nf(it.share)}%)`:"");
+    const row=el("div",{class:"bi"+(it.ghost?" ghost":""),tabindex:"0"},lbl,el("span",{class:"trk"},el("span",{class:"bar",style:`width:${w}`}),el("span",{class:"val",text:vt})));
+    attachTip(row,()=>[el("b",{text:o.pct?nf(it.value)+"%":cr(it.value)}),el("span",{text:it.label}),it.tip?el("span",{class:"k",text:it.tip}):null]);
+    return row;
+  }));
+}
+
+/* national themes (MCA rows retrieved) */
+(function(){
+  const rows=[["Education",13877.34],["Health Care",8530.60],["Environmental Sustainability",3396.75],["Art and Culture",692.22],["Animal Welfare",560.78],["Conservation of Natural Resources",426.28],["Gender Equality",223.98],["Agro Forestry",87.59],["Armed Forces and Veterans",72.40],["Clean Ganga Fund",19.35]];
+  const got=rows.reduce((a,r)=>a+r[1],0);
+  const items=rows.map(r=>({label:r[0],value:r[1],tip:`${nf(r[1]/NATIONAL*100,1)}% of ₹${n0(NATIONAL)} cr (computed)`}));
+  items.push({label:"Other sectors, not retrieved",small:"Balance to the national total (computed)",value:NATIONAL-got,ghost:true,tip:"Includes sectors later in the alphabet that could not be retrieved, such as rural development and sports"});
+  barList($("natThemes"),items);
+})();
+
+/* PRIME schedule VII */
+(function(){
+  const th=[["Education and vocational skills",1137.14,37.32],["Hunger, poverty and healthcare",839.80,27.56],["Environmental sustainability",159.99,5.25],["Rural development",122.25,4.01],["Sports",72.32,2.37],["Reducing inequalities",71.60,2.35],["National heritage",36.07,1.18],["PM relief fund",31.84,1.05],["Technology incubators",30.73,1.01],["Disaster management",24.47,0.80],["Armed forces veterans",22.98,0.75],["Slum development",4.09,0.13]];
+  const items=th.map(r=>({label:r[0],value:r[1],share:r[2],tip:"Share as published by PRIME"}));
+  items.push({sep:"Not a theme"});
+  items.push({label:"Administrative expenses",value:419.56,share:13.77,tip:"Share as published by PRIME"});
+  items.push({label:"Impact assessment",value:42.58,share:1.40,tip:"Share as published by PRIME"});
+  barList($("primeThemes"),items,{max:1137.14});
+})();
+
+$("goesFacts").append(...[
+  ["Education is 34% of national spend (₹13,877 cr, +14%) and healthcare 21% (₹8,531 cr). ","Environmental sustainability is ₹3,397 cr, up 40%.","Fulcrum, FY25"],
+  ["98% (₹39,851 cr) was spent directly on projects. ","₹943 cr (2%) went to government funds.","Fulcrum, FY25"]
+].map(f=>el("li",null,el("b",{text:f[0]}),f[1]," ",el("span",{class:"unit",text:f[2]}))));
+
+/* states + route */
+barList($("states"),[["Maharashtra",279.79,10.83],["Gujarat",243.32,9.41],["Tamil Nadu",237.83,9.20],["Uttar Pradesh",131.13,5.07],["Haryana",117.05,4.53],["Telangana",112.74,4.36],["Odisha",109.96,4.25],["Karnataka",105.47,4.08],["Chhattisgarh",101.09,3.91],["Andhra Pradesh",99.58,3.85]].map(r=>({label:r[0],value:r[1],share:r[2],tip:"Share as published by PRIME"})));
+barList($("route"),[["Directly by the company",46.85],["Through implementing agencies",36.71],["Both",10.77],["Not specified",5.67]].map(r=>({label:r[0],value:r[1]})),{pct:true,max:50});
+$("landFacts").append(...[
+  ["Nationally, Maharashtra received ₹8,631 cr. ","Gujarat grew fastest, up 68%.","Fulcrum, FY25"],
+  ["Aspirational districts took about 10% of listed-company spend, ","reported by 373 companies.","Crisil CSR Yearbook 2026"]
+].map(f=>el("li",null,el("b",{text:f[0]}),f[1]," ",el("span",{class:"unit",text:f[2]}))));
+
+/* commitments */
+(function(){
+  const rows=[
+    ["ICICI Bank","Support to Tata Memorial Centre raised to ₹1,800 cr for three new cancer hospitals. Cancer blocks at Visakhapatnam and Navi Mumbai. An oncology research and innovation centre at IISc.","Not stated","Cancer blocks reported under construction",["India CSR, ICICI Bank FY26 allocation","https://indiacsr.in/icici-bank-boosts-csr-allocation-by-24-percent-to-rs-994-cr/"]],
+    ["ICICI Bank","CSR allocation of ₹994 cr, up 24%","FY26","Allocation, not spend",["India CSR, ICICI Bank FY26 allocation","https://indiacsr.in/icici-bank-boosts-csr-allocation-by-24-percent-to-rs-994-cr/"]],
+    ["ONGC","₹25 cr pledge for Assam flood recovery (schools and the Chief Minister's relief fund)","Not stated",null,["India CSR, ONGC FY26","https://indiacsr.in/ongc-spends-rs-942-88-cr-on-csr-in-fy-2025-26/"]],
+    ["REC Limited","₹10 cr for nine Mobile Medical Units (Doctor Aapke Dwaar)","Three years",null,["Business World, REC","https://businessworld.in/article/rec-commits-rs-10-cr-for-mobile-medical-units-under-its-flagship-initiative-doctor-aapke-dwaar-526669"]],
+    ["REC Limited","₹8.44 cr for a 1 MW solar plant at Gandhigram Rural Institute","Not stated",null,["REC ESG report 2025","https://www.sustainabilityreports.com/rec-ltd/2025/esg-report"]],
+    ["HCLTech","HCLTech Grant: ₹152.8 cr committed to 59 projects reaching 2.2 million+ lives","Not stated",null,["HCLTech annual report 2025, CSR","https://www.hcltech.com/hcl-annual-report-2025/csr"]],
+    ["Power Finance Corporation","₹1,966 cr sanctioned cumulatively","Cumulative","₹1,683 cr disbursed, as reported",["India CSR, PFC FY25","https://indiacsr.in/power-finance-corporation-csr-spending-report-of-rs-270-crore-for-fy-2025/"]],
+    ["Axis Bank","Sustainable Livelihood Programme: 2.7 million families","By 2025",null,["Axis Bank CSR impact report 2024","https://www.sustainabilityreports.com/axis-bank/2024/csr-impact-report"]],
+    ["Axis Bank","2 million trees","By 2027","1.33 million planted (2024 report)",["Axis Bank CSR impact report 2024","https://www.sustainabilityreports.com/axis-bank/2024/csr-impact-report"]],
+    ["Larsen & Toubro","1.7 million people reached","By FY26","Exceeded: 1.9 million reached",["India CSR, L&T FY25","https://indiacsr.in/lt-spends-rs-164-crore-csr-initiatives-fy25/"]],
+    ["Wipro","4.9 million lives","FY25",null,["nasscom, tech companies and CSR impact","https://community.nasscom.in/communities/tech-good/5-major-tech-companies-impact-154-million-lives-through-csr"]],
+    ["Muthoot Finance","₹174.03 cr CSR outlay. Its FY25 spend is not in the verified list on this page.","FY27","Headline only",["India CSR, Muthoot Finance","https://indiacsr.in/muthoot-finance-announces-rs-174-03-crore-csr-outlay-for-fy27/"]]
+  ];
+  const t=$("commitTbl");
+  t.append(el("thead",null,el("tr",null,["Company","Commitment","Horizon","Progress found","Source"].map(h=>el("th",{text:h})))));
+  t.append(el("tbody",null,rows.map(r=>el("tr",null,
+    el("td",{class:"c",text:r[0],style:"white-space:nowrap"}),
+    el("td",{text:r[1],style:"min-width:280px"}),
+    el("td",{text:r[2],style:"white-space:nowrap"}),
+    el("td",null,r[3]?r[3]:el("span",{class:"nf",text:"Not found"})),
+    el("td",null,el("a",{href:r[4][1],target:"_blank",rel:"noopener",text:"Link"}))
+  ))));
+})();
+
+/* observations */
+(function(){
+  const o=[
+    ["Education and healthcare take 55%","Education (₹13,877 cr) and healthcare (₹8,531 cr) together are about 55% of the ₹40,794 cr national total (computed). Environment is far smaller but grew fastest, up 40%.","Fulcrum, FY25"],
+    ["A long tail behind a short head","The ten largest spenders account for ₹7,123 cr, 17% of the total, across 29,546 reporting companies. In the NSE-listed set the top ten are 34% of listed spend.","Fulcrum; PRIME"],
+    ["Three sectors carry listed-company CSR","BFSI (₹5,066 cr), manufacturing (₹4,530 cr) and energy (₹3,067 cr) are 56% of listed-company spend. In the 40 companies here, energy and BFSI are about 30% each (computed).","Crisil CSR Yearbook 2026"],
+    ["Public sector is a large and growing source","183 central PSUs spent ₹6,437 cr, up 31.1%, and the top ten are 59.48% of that. ONGC leads public-sector companies at ₹929.08 cr.","Business Standard; PRIME"],
+    ["Almost half runs through implementing agencies","Of disclosed spend, 36.71% goes through implementing agencies and another 10.77% through a mix of direct and agency routes, together 47.48% (computed). This is where NGOs, foundations and delivery partners sit.","PRIME, 531 companies"],
+    ["Evaluation gets little money","Impact assessment is ₹42.58 cr, 1.40% of spend in the sample, against administrative expenses of 13.77%. HDFC Bank reports the most, ₹7.82 cr, then ITC at ₹3.62 cr.","PRIME"],
+    ["Unspent money is part of the flow","NSE-listed companies moved ₹3,223 cr into Unspent CSR accounts, and 315 companies spent less than their prescribed amount. Among the companies here, ICICI Bank is reported to have ₹274 cr unspent and PFC moved ₹81.92 cr.","PRIME; company reports"],
+    ["Geography is uneven","Maharashtra received ₹8,631 cr nationally. In the listed sample the top ten states take about 60%, and aspirational districts about 10% of listed spend.","Fulcrum; PRIME; Crisil"]
+  ];
+  $("obs").append(...o.map(x=>el("li",null,el("h3",{text:x[0]}),el("p",{text:x[1]}),el("p",{class:"src",text:x[2]}))));
+})();
+
+/* trend */
+(function(){
+  const d=[["FY20",24965.82],["FY21",26210.95],["FY22",27141.45],["FY23",30932.08],["FY24",34908.75],["FY25*",40794]];
+  const max=Math.max(...d.map(x=>x[1]));
+  const t=$("trend"),x=$("trendx");
+  d.forEach((p,i)=>{
+    const prev=i?d[i-1][1]:null;
+    const c=el("div",{class:"col",tabindex:"0"},el("span",{class:"cv",text:n0(p[1])}),el("i",{style:`height:${p[1]/max*140}px`}));
+    attachTip(c,()=>[el("b",{text:cr(p[1])}),el("span",{text:p[0].replace("*","")}),prev?el("span",{class:"k",text:`${nf((p[1]/prev-1)*100,1)}% on the year before (computed)`}):null,p[0].endsWith("*")?el("span",{class:"k",text:"Fulcrum report, a different source from earlier years"}):null]);
+    t.append(c); x.append(el("span",{text:p[0]}));
+  });
+  t.parentElement.append(el("p",{class:"unit",style:"margin-top:8px",text:"* FY25 from the Fulcrum report; earlier years from MCA data."}));
+})();
+
+/* reconcile */
+(function(){
+  const rows=[
+    ["All companies, MCA filings","40,794","29,546 companies","Fulcrum Bharat CSR Performance Report 2026"],
+    ["Listed companies","22,563","2,013 of 2,323 listed companies reporting","Crisil CSR Yearbook 2026"],
+    ["NSE-listed companies","22,212","1,549 obligated, 1,521 spent; 71 PSUs spent 4,791","PRIME Infobase"],
+    ["Central PSUs","6,437","183 CPSEs","Business Standard"],
+    ["The list on this page",n0(total),"40 companies, mixed bases (computed)","Sources per company"]
+  ];
+  const t=$("reconTbl");
+  t.append(el("thead",null,el("tr",null,["Measure","FY25 ₹ cr","Scope","Source"].map((h,i)=>el("th",{class:i===1?"n":"",text:h})))));
+  t.append(el("tbody",null,rows.map(r=>el("tr",null,el("td",{class:"c",text:r[0],style:"min-width:130px"}),el("td",{class:"n c",text:r[1]}),el("td",{text:r[2],style:"min-width:150px"}),el("td",{text:r[3],style:"min-width:140px"})))));
+})();
+
+/* main sources */
+$("mainSrc").append(...[
+  ["PRIME Infobase, NSE-listed CSR 2024-25",PRIME[1]],
+  ["India CSR, NSE-listed CSR surges 2024-25","https://indiacsr.in/nse-listed-companies-csr-spending-surges-2024-25/"],
+  ["UNI, India Inc CSR spending hits ₹40,794 cr (Fulcrum)","https://www.uniindia.com/india-inc-s-spending-on-csr-hits-rs-40-794-cr-in-fy2024-25-report/business-economy/news/3913828.html"],
+  ["India CSR, India's CSR hits record in FY2024-25","https://indiacsr.in/indias-csr-hits-record-crore-in-fy-2024-25/"],
+  ["India CSR, top companies by CSR spend","https://indiacsr.in/csr-spending-top-companies-invest-eliance-industries-ranks-first/"],
+  ["Dataful, MCA CSR sectors (dataset 1608)","https://dataful.in/datasets/1608"],
+  ["Dataful, MCA CSR states (dataset 1606)","https://dataful.in/datasets/1606/"],
+  ["Taxguru, CSR spending details (Lok Sabha)","https://taxguru.in/company-law/csr-spending-details-data-access.html"],
+  ["CSR Universe, Crisil CSR Yearbook 2026","https://thecsruniverse.com/articles/csr-spending-by-listed-companies-rises-17-5-to-22-563-crore"],
+  ["Vision IAS, Business Standard on 183 CPSEs","https://visionias.in/current-affairs/upsc-daily-news-summary/article/2025-12-27/business-standard/economy/csr-spending-of-183-cpses-surged-31-to-record-rs6437-crore-in-fy25"]
+].map(s=>el("li",null,el("a",{href:s[1],target:"_blank",rel:"noopener",text:s[0]}))));
+
+render();
+</script>
